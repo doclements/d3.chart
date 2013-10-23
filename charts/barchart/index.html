@@ -2,74 +2,141 @@
 
 <html >
 
-	<head>
+    <head>
 
-		<title></title>
+        <title></title>
 
+        <style>
+			.Barchart .label {
+				font-size: 1em;
+				fill: black;
+			}
+			.Barchart .ylabels .tick line {
+				stroke: black;
+				/*stroke-width: 1px;*/
+				shape-rendering: crispEdges;
+			}
+			.Barchart path.domain {
+				fill: none;
+				stroke: black;
+				stroke-width: 1px;
+				shape-rendering: crispEdges;
+			}
+			.Barchart .bars rect.bar {
+				/*fill: #97E8A2;*/
+			}
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>Bar Chart Example</h1>
 
-<style>
-  .Barchart .label {
-    font-size: 1em;
-    fill:black;
-    
-  }
-  .Barchart .ylabels .tick line {
-    stroke: black;
-    /*stroke-width: 1px;*/
-    shape-rendering: crispEdges;
-    
-  }
-  .Barchart path.domain {
-    fill: none;
-    stroke: black;
-    stroke-width: 1px;
-    shape-rendering: crispEdges;
-  }
-  .Barchart .bars rect.bar {
-    /*fill: #97E8A2;*/
-  }
-</style>
-	</head>
-	<body>
-			<header>
-				<h1>Bar Chart Example</h1>
-				
-			</header>
-			<div id="bar-chart"></div>
-		
+        </header>
+        <div id="bar-chart"></div>
 
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-		<script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script>
 			window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>');
-		</script>
-		<script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.3.3/d3.min.js"></script>
-		<script src="../../d3.chart.js"></script>
-		<script src="barchart.js"></script>
+        </script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.3.3/d3.min.js"></script>
+        <script src="../../d3.chart.js"></script>
+        <script src="barchart.js"></script>
 
-		<script>
-var barChart = d3.select("#bar-chart")
-  .append('svg')
-  .attr('height', 250)
-  .attr('width', 600)
-  .chart('BarChart', {bar_color :"blue"});
+        <script>
+			function getRandomizer(bottom, top) {
+				return function() {
+					return Math.floor(Math.random() * (1 + top - bottom )) + bottom;
+				};
+			}
+            var myRand = getRandomizer(0,100);
+			var loopFunc = function() {
 
-barChart.draw([
-  { name : 'JAN', value : 29 },
-  { name : 'FEB', value : 32 },
-  { name : 'MAR', value : 48 },
-  { name : 'APR', value : 49 },
-  { name : 'MAY', value : 58 },
-  { name : 'JUN', value : 68 },
-  { name : 'JUL', value : 74 },
-  { name : 'AUG', value : 73 },
-  { name : 'SEP', value : 65 },
-  { name : 'OCT', value : 4 },
-  { name : 'NOV', value : 45 },
-  { name : 'DEC', value : 35 }
-]);
+				barChart.draw([{
+					name : 'JAN',
+					value : myRand()
+				}, {
+					name : 'FEB',
+					value : myRand()
+				}, {
+					name : 'MAR',
+					value : myRand()
+				}, {
+					name : 'APR',
+					value : myRand()
+				}, {
+					name : 'MAY',
+					value : myRand()
+				}, {
+					name : 'JUN',
+					value : myRand()
+				}, {
+					name : 'JUL',
+					value : myRand()
+				}, {
+					name : 'AUG',
+					value : myRand()
+				}, {
+					name : 'SEP',
+					value : myRand()
+				}, {
+					name : 'OCT',
+					value : myRand()
+				}, {
+					name : 'NOV',
+					value : myRand()
+				}, {
+					name : 'DEC',
+					value : myRand()
+				}]);
+			};
 
-</script>
+			var barChart = d3.select("#bar-chart").append('svg').attr('height', 250).attr('width', 600).chart('BarChart', {
+				bar_color : "grey"
+			});
 
-	</body>
+			barChart.draw([{
+				name : 'JAN',
+				value : 29
+			}, {
+				name : 'FEB',
+				value : 32
+			}, {
+				name : 'MAR',
+				value : 48
+			}, {
+				name : 'APR',
+				value : 49
+			}, {
+				name : 'MAY',
+				value : 58
+			}, {
+				name : 'JUN',
+				value : 68
+			}, {
+				name : 'JUL',
+				value : 74
+			}, {
+				name : 'AUG',
+				value : 73
+			}, {
+				name : 'SEP',
+				value : 65
+			}, {
+				name : 'OCT',
+				value : 4
+			}, {
+				name : 'NOV',
+				value : 45
+			}, {
+				name : 'DEC',
+				value : 35
+			}]);
+			
+			
+			var myInterval = setInterval(loopFunc, 3000);
+
+        </script>
+
+    </body>
 </html>
 

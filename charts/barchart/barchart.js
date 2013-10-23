@@ -15,6 +15,7 @@ d3.chart('BarChart', {
 	initialize : function(config) {
 		console.log(config);
 		var chart = this;
+		var yAxis;
 
 		// default height and width
 		chart.bar_color = config.bar_color || "green";
@@ -83,13 +84,16 @@ d3.chart('BarChart', {
 				chart.y.domain([0, chart.datamax]);
 
 				// draw yaxis
-				var yAxis = d3.svg.axis().scale(chart.y).orient('left').ticks(6);
+				yAxis = d3.svg.axis().scale(chart.y).orient('left').ticks(6);
 
 				chart.areas.ylabels.call(yAxis);
 
 				return this.selectAll('rect').data(data);
 			},
 			insert : function() {
+				console.log('inserting');
+										chart.base.select(".ylabels").call(yAxis).transition().duration(2000).delay(1000).ease('cubic');	
+
 				return this.append('rect').classed('bar', true).style("fill", chart.bar_color);
 			}
 		});
@@ -119,15 +123,17 @@ d3.chart('BarChart', {
                 transform: function (d,i) {
                 	var offsetx = (chart.x(i)  + chart.bar_width / 2)+4;
                 	var offsety = 7;
-                	console.log( "translate("+offsetx+","+offsety+")rotate(-90, 0, 0)");
-                    return "translate("+offsetx+","+offsety+")rotate(-90, 0, 0)";
+                	//console.log( "translate("+offsetx+","+offsety+")rotate(-90, 0, 0)");
+                    return "translate("+offsetx+","+offsety+")rotate(270, 0, 0)";
                 }
              });
 		};
 //date data
 		// render the bars.
 		var onEnter = function() {
-			console.log('entering');
+			console.log(chart.base.transition().duration(2000).delay(1000).ease('cubic').select(".ylabels"));
+						//chart.base.select(".ylabels").call(yAxis).transition().duration(2000).delay(1000).ease('cubic');	
+
 			this.attr('x', function(d, i) {
 				return chart.x(i) - 0.5;
 			}).attr('y', function(d) {
@@ -140,8 +146,10 @@ d3.chart('BarChart', {
 			});
 		};
 		var onUpdate = function() {
-			console.log(this.transition());
-			this.transition().attr('x', function(d, i) {
+//			console.log(this.transition());
+						
+
+			this.transition().duration(2000).ease('cubic').attr('x', function(d, i) {
 					return chart.x(i) - 0.5;
 				}).attr('y', function(d) {
 					return chart.h - chart.margins.bottom - chart.margins.top - chart.y(chart.datamax - d.value) - 0.5;
@@ -150,7 +158,8 @@ d3.chart('BarChart', {
 				}).attr('width', chart.bar_width).attr('height', function(d) {
 					//return chart.h - chart.margins.bottom - chart.y(chart.datamax - d.value);
 					return chart.y(chart.datamax - d.value);
-				}).duration(1000).delay(500);
+				});
+			//chart.base.transition().duration(2000).delay(1000).ease('cubic').select(".ylabels").call(yAxis);	
 			
 		};
 		chart.layer('xlabels').on('enter', onXEnter);
